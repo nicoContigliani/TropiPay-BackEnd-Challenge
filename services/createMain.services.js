@@ -8,7 +8,7 @@ const getDataUrl = require("./getDataUrl.services");
 const todoPage = require("./todoPage.service");
 
 const createMain = async (data) => {
-  await data.forEach((element) => {
+ const datas =  await data.forEach((element) => {
     createMainArray(element);
   });
 };
