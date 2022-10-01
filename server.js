@@ -10,7 +10,11 @@ const { writeFile } = require("fs/promises");
 const getDataUrl = require("./services/getDataUrl.services");
 const generateObject = require("./services/generateObject.service");
 const todoPage = require("./services/todoPage.service");
+const createMain = require("./services/createMain.services");
 // const stream = fs.createWriteStream("tomaPorMiron.txt");
+
+const counter = [];
+const urlForArray = [];
 
 if (process.env.urlDatas) {
   // console.log("🚀 ~ file: server.js ~ line 7 ~ url", process.env.urlDatas);
@@ -19,23 +23,40 @@ if (process.env.urlDatas) {
   try {
     (async () => {
       // const response = await axios.get(url);
-      console.log(process.env.maxdist)
+      console.log(process.env.maxdist);
 
-      const response = await getDataUrl(url);
-      const UrlAll = await generateObject(response);
-      const $ = cheerio.load(response.data);
-      const todo = await todoPage($);
-      const resultTitle = $("title").html();
-      // console.log(
-      //   "🚀 ~ file: generateObject.service.js ~ line 6 ~ generateObject ~ resultTitle",
-      //   resultTitle.split(/\s+/).join("")
-      // );
+      if (counter.length == 0) {
+        const response = await getDataUrl(url);
+        const UrlAll = await generateObject(response);
+        const $ = cheerio.load(response.data);
+        const todo = await todoPage($);
+        const resultTitle = $("title").html();
+        const dataWebPage = { url: url, urlSpider: UrlAll, data: todo };
+        const fileName = `${resultTitle.split(/\s+/).join("")}.txt`;
+        writeFile(fileName, JSON.stringify(dataWebPage));
+        counter.push(1);
+        urlForArray.push(UrlAll);
+      }
+      if (counter.length != 0) {
+        for (let index = 1; index < process.env.maxdist; index++) {
+          urlForArray.forEach((element) => {
+            createMain(element);
+          });
+        }
 
-      const dataWebPage = { url: url, urlSpider: UrlAll, data: todo };
+        // for (let index = 0; index < array.length; index++) {
+        //   // const element = array[index];
+        // }
+      }
 
-      const fileName = `${resultTitle.split(/\s+/).join("")}.txt`;
-
-      writeFile(fileName, JSON.stringify(dataWebPage));
+      // const response = await getDataUrl(url);
+      // const UrlAll = await generateObject(response);
+      // const $ = cheerio.load(response.data);
+      // const todo = await todoPage($);
+      // const resultTitle = $("title").html();
+      // const dataWebPage = { url: url, urlSpider: UrlAll, data: todo };
+      // const fileName = `${resultTitle.split(/\s+/).join("")}.txt`;
+      // writeFile(fileName, JSON.stringify(dataWebPage));
     })();
   } catch (error) {
     console.log("🚀 ~ file: server.js ~ line 17 ~ error", error);

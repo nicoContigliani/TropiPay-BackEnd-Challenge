@@ -22,7 +22,6 @@ const generateObject = async (response) => {
     const info = { titulo: datass[3], url: datass[1] };
     datass[1].includes("html") ? dDattas.push(info) : "";
   });
-  console.log("🚀 ~ file: server.js ~ line 59 ~ r ~ dDattas", dDattas);
   return dDattas;
 };
 module.exports = generateObject;
