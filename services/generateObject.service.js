@@ -7,6 +7,7 @@ const generateObject = async (response) => {
   $("b").each((_, e) => {
     let row = $(e).text().replace(/(\s+)/g, " ");
     let datas = $(e).html();
+    console.log("🚀 ~ file: generateObject.service.js ~ line 10 ~ $ ~ datas", datas)
     dList.push(datas);
   });
   const dDattas = [];

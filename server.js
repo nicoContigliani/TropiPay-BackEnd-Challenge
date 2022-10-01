@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3001;
+const port = 0;
 require("dotenv").config();
 
 const axios = require("axios");
@@ -38,9 +38,11 @@ if (process.env.urlDatas) {
         urlForArray.push(UrlAll);
       }
       if (counter.length != 0) {
-        for (let index = 1; index < process.env.maxdist; index++) {
+        for (let index = 1; counter.length < process.env.maxdist; index++) {
           urlForArray.forEach((element) => {
             createMain(element);
+            counter.push(1);
+            console.log("paso ++++++++++++++++++++++++++++++++++++++++++++++");
           });
         }
 
