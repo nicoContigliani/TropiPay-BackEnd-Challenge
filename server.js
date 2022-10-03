@@ -11,7 +11,21 @@ const getDataUrl = require("./services/getDataUrl.services");
 const generateObject = require("./services/generateObject.service");
 const todoPage = require("./services/todoPage.service");
 const createMain = require("./services/createMain.services");
+const forCrateMain = require("./services/forCrateMain.service");
 // const stream = fs.createWriteStream("tomaPorMiron.txt");
+
+try {
+  // directory path
+  const dir = "./Data";
+
+  // create new directory
+  fs.mkdir(dir, (err) => {
+    if (err) {
+      // throw err;
+    }
+    console.log("Directory is created.");
+  });
+} catch (error) {}
 
 const counter = [];
 const urlForArray = [];
@@ -33,22 +47,31 @@ if (process.env.urlDatas) {
         const resultTitle = $("title").html();
         const dataWebPage = { url: url, urlSpider: UrlAll, data: todo };
         const fileName = `${resultTitle.split(/\s+/).join("")}.txt`;
-        writeFile(fileName, JSON.stringify(dataWebPage));
+        writeFile(`./Data/${fileName}`, JSON.stringify(dataWebPage));
         counter.push(1);
         urlForArray.push(UrlAll);
       }
       if (counter.length != 0) {
-        for (let index = 1; counter.length < process.env.maxdist; index++) {
-          urlForArray.forEach((element) => {
-            createMain(element);
-            counter.push(1);
-            console.log("paso ++++++++++++++++++++++++++++++++++++++++++++++");
-          });
-        }
+        
+        const ress = forCrateMain(urlForArray)
 
-        // for (let index = 0; index < array.length; index++) {
-        //   // const element = array[index];
+
+
+
+
+        // for (let index = 1; counter.length < process.env.maxdist; index++) {
+        //   urlForArray.forEach((element) => {
+        //     createMain(element);
+        //     counter.push(1);
+        //     console.log(
+        //       "paso ++++++++++++++++++++++++++++++++++++++++++++++",
+        //       counter.length,
+        //       "**********************"
+        //     );
+        //   });
         // }
+
+   
       }
 
       // const response = await getDataUrl(url);

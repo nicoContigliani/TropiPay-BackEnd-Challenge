@@ -10,7 +10,6 @@ const todoPage = require("./todoPage.service");
 const createMain = async (data) => {
  const datas =  await data.forEach((element) => {
     createMainArray(element);
-    console.log("🚀 ~ file: createMain.services.js ~ line 13 ~ datas ~ element", element)
   });
 };
 module.exports = createMain;
