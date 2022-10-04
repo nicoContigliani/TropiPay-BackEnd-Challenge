@@ -12,6 +12,8 @@ const generateObject = require("./services/generateObject.service");
 const todoPage = require("./services/todoPage.service");
 const createMain = require("./services/createMain.services");
 const forCrateMain = require("./services/forCrateMain.service");
+const { returnsGeneralUrl, getUrl } = require("./services/returnsGeneralUrl");
+const generateObjectB = require("./services/generateObjectB.service");
 // const stream = fs.createWriteStream("tomaPorMiron.txt");
 
 try {
@@ -29,6 +31,7 @@ try {
 
 const counter = [];
 const urlForArray = [];
+const traeUrls = [];
 
 if (process.env.urlDatas) {
   // console.log("🚀 ~ file: server.js ~ line 7 ~ url", process.env.urlDatas);
@@ -51,13 +54,24 @@ if (process.env.urlDatas) {
         counter.push(1);
         urlForArray.push(UrlAll);
       }
-      if (counter.length != 0) {
-        
-        const ress = forCrateMain(urlForArray)
 
+      if (counter.length != 0 && counter.length<process.env.maxdist) {
+        const ress = await forCrateMain([urlForArray, counter]);
 
+        // for (let index = 1; counter.length < process.env.maxdist; index++) {
+        //   const ress = await forCrateMain(
+        //     counter.length == 1
+        //       ? [urlForArray, counter]
+        //       : [urlForArray, counter]
+        //   );
 
-
+        //   console.log(
+        //     "****************************",
+        //     counter.length,
+        //     "************************************"
+        //   );
+        //   counter.push(1);
+        // }
 
         // for (let index = 1; counter.length < process.env.maxdist; index++) {
         //   urlForArray.forEach((element) => {
@@ -70,8 +84,6 @@ if (process.env.urlDatas) {
         //     );
         //   });
         // }
-
-   
       }
 
       // const response = await getDataUrl(url);

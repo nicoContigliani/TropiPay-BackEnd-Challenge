@@ -1,22 +1,15 @@
 const cheerio = require("cheerio");
-const getDataUrl = require("./getDataUrl.services");
-const {returnsGeneralUrl} = require("./returnsGeneralUrl");
 
-const generateObjectB = async (url) => {
-  const resultUrl = await getDataUrl(url);
-  const $ = cheerio.load(resultUrl.data);
-
+const generateObjectC = async (data) => {
   const dList = [];
   const dDattas = [];
-//   const ej = $("a").html();
 
+  const $ = cheerio.load(data);
   $("font").each((_, e) => {
     let row = $(e).text().replace(/(\s+)/g, " ");
     let datas = $(e).html();
     dList.push(datas);
   });
-
-  
   const r = dList.forEach((e) => {
     const datass = e;
 
@@ -39,16 +32,18 @@ const generateObjectB = async (url) => {
             .replace(`"`, ``)
             .trimEnd()
             .split(" ");
-            
-            dDattas.push(arrayUrlbranch);
-        
+
+
+ 
+
+          dDattas.push(arrayUrlbranch);
         }
       });
     }
     // console.log(dDattas);
     // returnsGeneralUrl(dDattas)
   });
-  return dDattas
-};
 
-module.exports = generateObjectB;
+  return dDattas;
+};
+module.exports = generateObjectC;
